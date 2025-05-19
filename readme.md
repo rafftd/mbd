@@ -159,7 +159,7 @@ INSERT INTO R VALUES (11, 12);
   
   (5, 6)
   (11, 12)
-  ROLLBACK TO a;
+
 
 8. Menyimpan perubahan secara permanen ke database.
 
