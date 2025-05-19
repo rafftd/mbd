@@ -1,6 +1,6 @@
 #  Materi Basis Data: Trigger vs Procedure & Transaksi SQL
 
-##  1. Trigger vs Procedure dalam Otomatisasi Diskon dan Promosi
+##  NOmor 5. Trigger vs Procedure dalam Otomatisasi Diskon dan Promosi
 
 ###  Tujuan Pembelajaran
 - Memahami konsep dasar **Trigger** dan **Stored Procedure** dalam basis data.
@@ -78,3 +78,109 @@ BEGIN
   END IF;
 END;
 ```
+
+
+##  Nomor 6 – Latihan Transaksi SQL (SAVEPOINT, ROLLBACK, COMMIT)
+
+###  Soal
+Diberikan sebuah tabel `R` sederhana sebagai ilustrasi untuk memahami bagaimana mekanisme transaksi bekerja dalam SQL.
+
+```sql
+CREATE TABLE R (a INT, b INT);
+
+INSERT INTO R VALUES (5, 6);
+SAVEPOINT a;
+INSERT INTO R VALUES (7, 8);
+SAVEPOINT b;
+INSERT INTO R VALUES (9, 10);
+ROLLBACK TO b;
+INSERT INTO R VALUES (11, 12);
+ROLLBACK TO a;
+INSERT INTO R VALUES (13, 14);
+COMMIT;
+```
+## Penjelasan Langkah demi Langkah
+
+1. Menambahkan baris (5, 6) ke tabel.
+     
+```sql
+INSERT INTO R VALUES (5, 6);
+```
+  Tabel:
+
+  (5, 6)
+
+2. Menyimpan titik checkpoint dengan nama 1.
+
+```sql
+SAVEPOINT my_savepoint_1;
+
+```
+3. Menambahkan baris (7, 8).
+   
+```sql
+INSERT INTO R VALUES (7, 8);
+```
+  Tabel:
+  
+  (5, 6)
+  (7, 8)
+
+4. Menyimpan checkpoint 2 setelah baris (7, 8) ditambahkan.
+
+```sql
+SAVEPOINT my_savepoint_2;
+```
+
+5. Menambahkan baris (9, 10).
+
+```sql
+INSERT INTO R VALUES (9, 10);
+```
+
+  Tabel:
+  
+  (5, 6)
+  (7, 8)
+  (9, 10)
+
+6. Membatalkan perubahan setelah SAVEPOINT 1.
+
+```sql
+ROLLBACK TO my_savepoint_1;
+````
+
+7. Menambahkan baris (11, 12).
+
+```sql
+INSERT INTO R VALUES (11, 12);
+```
+
+  Tabel:
+  
+  (5, 6)
+  (11, 12)
+  ROLLBACK TO a;
+
+8. Menyimpan perubahan secara permanen ke database.
+
+```sql
+COMMIT;
+```
+
+## Hasil Akhir Tabel R
+```
+(5, 6)
+(11, 12)
+```
+## Kesimpulan
+
+- SAVEPOINT membuat titik pemulihan dalam transaksi.
+
+- ROLLBACK TO akan membatalkan semua perubahan setelah titik tertentu, bukan semuanya.
+
+- COMMIT akan menyimpan perubahan yang telah dilakukan hingga titik itu secara permanen ke database.
+
+
+
+
