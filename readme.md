@@ -88,17 +88,16 @@ Diberikan sebuah tabel `R` sederhana sebagai ilustrasi untuk memahami bagaimana 
 ```sql
 CREATE TABLE R (a INT, b INT);
 
-INSERT INTO R VALUES (5, 6);
-SAVEPOINT a;
-INSERT INTO R VALUES (7, 8);
-SAVEPOINT b;
-INSERT INTO R VALUES (9, 10);
-ROLLBACK TO b;
-INSERT INTO R VALUES (11, 12);
-ROLLBACK TO a;
-INSERT INTO R VALUES (13, 14);
+INSERT INTO R values (5, 6);
+SAVEPOINT my_savepoint_1;
+INSERT INTO R values (7, 8);
+SAVEPOINT my_savepoint_2;
+INSERT INTO R values (9, 10);
+ROLLBACK TO my_savepoint_1;
+INSERT INTO R values (11, 12);
 COMMIT;
 ```
+
 ## Penjelasan Langkah demi Langkah
 
 1. Menambahkan baris (5, 6) ke tabel.
